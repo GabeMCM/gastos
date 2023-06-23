@@ -18,6 +18,18 @@ const calcCount = (initialDate, valor, installments) => {
 	return { monthList, installmentsValor };
 };
 
+const sendData = (collection) => {
+	collection
+		.save()
+		.then(() => {
+			console.log("Dados salvos corretamente");
+		})
+		.catch((error) => {
+			console.error("Erro ao salvar:", error);
+		});
+};
+
 module.exports = {
 	calcCount,
+	sendData,
 };
