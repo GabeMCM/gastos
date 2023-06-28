@@ -1,41 +1,45 @@
-const model = require("../models/model");
-const general = require("../config/general")
+const user = require("../models/model");
+const dataService = require("../services/data.Service");
 
+/* ----------------------------------- */
 const init = (req, res) => {
-  res.render("index");
-};
-
-const sendData = (collection) => {
-  collection
-    .save()
-    .then(() => {
-      console.log("Dados salvos corretamente");
-    })
-    .catch((error) => {
-      console.error("Erro ao salvar:", error);
-    });
+	//função para renderizar o index
+	res.render("index");
 };
 
 const saveData = (req, res) => {
-  const form = req.body;
-  const choice = req.params.choice;
+	//controller que salva os dados no banco de dados correspondente com o que precisa ser lançado
+	const form = req.body;
+	const choice = req.params.choice;
 
-  const f_account = new model.fixedAccounts(form);
-  const t_Account = new model.termAccounts(form);
-  const d_Account = new model.dailyAccounts(form);
+	const f_account = new user.fixedAccounts(form);
+	const t_Account = new user.termAccounts(form);
+	const d_Account = new user.dailyAccounts(form);
 
-  if (choice == "fixedAccount") {
-    sendData(f_account);
-  } else if (choice == "termAccount") {
-    sendData(t_Account);
-  } else {
-    sendData(d_Account);
-  }
+	if (choice == "fixedAccount") {
+		dataService.sendData(f_account);
+	} else if (choice == "termAccount") {
+		dataService.sendData(t_Account);
+	} else {
+		dataService.sendData(d_Account);
+	}
 
-  res.redirect("/");
+	res.redirect("/");
+};
+
+const showData = async (req, res) => {
+	try {
+		const dataComplet = await dataService.getAllData();
+		console.log(dataComplet);
+		res.render("showData", {dataComplet})
+		//res.redirect("/");
+	} catch (err) {
+		res.status(500).send({ error: err.message });
+	}
 };
 
 module.exports = {
-  init,
-  saveData,
+	init,
+	saveData,
+	showData,
 };
