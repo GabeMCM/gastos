@@ -1,5 +1,6 @@
 const user = require("../models/model");
 const dataService = require("../services/data.Service");
+const calcService = require("../services/calc.Service");
 
 /* ----------------------------------- */
 const init = async (req, res) => {
@@ -13,22 +14,40 @@ const init = async (req, res) => {
 	}
 };
 
-const saveData = (req, res) => {
+const saveData = async (req, res) => {
 	//controller que salva os dados no banco de dados correspondente com o que precisa ser lançado
 	const form = req.body;
 	const choice = req.params.choice;
 
-	const f_account = new user.fixedAccounts(form);
-	const t_Account = new user.termAccounts(form);
+	const f_Account = new user.fixedAccounts(form);
 	const d_Account = new user.dailyAccounts(form);
 
 	try {
 		if (choice == "fixedAccount") {
-			dataService.sendData(f_account);
+
+			await dataService.sendData(f_Account);
+
 		} else if (choice == "termAccount") {
-			dataService.sendData(t_Account);
+
+			const {descricao, vencimento, valor, quantParcelas} = req.body;
+			const termObject = calcService.calcCount(descricao, vencimento, valor, quantParcelas);
+
+			for (let i = 0; i < termObject.monthList; i++) {
+				const form = {
+					descricao: termObject.description,
+					vencimento: termObject.monthList[i],
+					valor: termObject.installmentsValor,
+					quantParcelas: termObject.installmentsList[i],
+				}
+
+				const t_Account = new user.termAccounts(form);
+				await dataService.sendData(t_Account);
+			}
+			
 		} else if (choice == "dailyAccount") {
-			dataService.sendData(d_Account);
+
+			await dataService.sendData(d_Account);
+
 		}
 		res.redirect("/");
 	} catch (err) {

@@ -1,0 +1,43 @@
+<table class="table" id="<%= obj %>">
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Vencimento</th>
+      <th>Parcela</th>
+      <th>Valor</th>
+      <th>Tipo</th>
+    </tr>
+  </thead>
+    <tbody>
+      <% list[obj].forEach((data) => { %>
+        <tr>
+          <td><%= data.descricao %></td>
+          <td><%= data.vencimento %></td>
+          <td><%= data.quantParcelas %></td>
+          <td><%= data.valor %></td>
+          <% if(obj === "term") { %>
+            <td>Parcelada</td>
+          <% } %>
+        </tr>
+      <% }) %>
+        <tr>
+          <form action="/save/<%=obj%>Account" method="post">
+            <td>
+              <input name="descricao" type="text" placeholder="descrição">
+            </td>
+            <td>
+              <input name="vencimento" type="date" placeholder="data 1° parcela">
+            </td>
+            <td>
+              <input name="quantParcelas" type="number" placeholder="Quantidade parcelas">
+            </td>
+            <td>
+              <input name="valor" type="number" step="0.01" placeholder="valor">
+            </td>
+            <td>
+              <button id="add-data3" type="submit">Adicionar</button>
+            </td>
+          </form>
+        </tr>
+    </tbody>
+</table>

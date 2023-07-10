@@ -65,27 +65,14 @@
 
   </section>   
 
-  <div class="AllTables">
+  <div class="AllTables"> <!-- {list: dataComplet, obj: collection} -->
     <% for (let collection in dataComplet) { %>
-      <% if (collection === "daily" || collection === "fixed" || collection === "term") {%>
-        <table class="table" id="<%= collection%>">
-          <thead>
-            <tr>
-              <th>Descrição</th>
-              <th>Valor</th>
-              <th>Tipo</th>
-            </tr>
-          </thead>
-          <% dataComplet[collection].forEach((data) => { %>
-            <tbody>
-              <tr>
-                <td><%= data.descricao %></td>
-                <td><%= data.valor %></td>
-                <td><%= collection %></td>
-              </tr>
-            </tbody>
-          <% }) %>
-        </table> 
+      <% if (collection === "daily") {%>
+        <%- include("./modules/dailyTable", {list: dataComplet, obj: collection})%>
+      <% } else if (collection === "fixed") {%>
+        <%- include("./modules/fixedTable", {list: dataComplet, obj: collection})%>
+      <% } else if (collection === "term") {%>
+        <%- include("./modules/termTable", {list: dataComplet, obj: collection})%>
       <% } %>
     <% } %>
   </div>

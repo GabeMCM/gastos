@@ -1,15 +1,13 @@
 const mongoose = require("mongoose");
 
 const fixedAccountsSchema = new mongoose.Schema({
-	responsavel: String,
 	vencimento: String,
 	descricao: String,
 	valor: Number,
 });
 
 const termAccountsSchema = new mongoose.Schema({
-	responsavel: String,
-	mesInicial: String,
+	vencimento: String,
 	descricao: String,
 	valor: Number,
 	quantParcelas: Number,
