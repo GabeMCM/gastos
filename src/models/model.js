@@ -10,7 +10,7 @@ const termAccountsSchema = new mongoose.Schema({
 	vencimento: String,
 	descricao: String,
 	valor: Number,
-	quantParcelas: Number,
+	quantParcelas: String,
 });
 
 const dailyAccountsSchema = new mongoose.Schema({

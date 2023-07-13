@@ -1,11 +1,11 @@
 const calcCount = (description, initialDate, valor, installments) => {
 	let monthList = [];
 	let installmentsList = [];
-	const dateParts = initialDate.toString().split("/"); // Divide a string em partes
+	const dateParts = initialDate.toString().split("-"); // Divide a string em partes
 
-	let day = parseInt(dateParts[0])
+	let year = parseInt(dateParts[0])
 	let mounth = parseInt(dateParts[1]) - 1; // Mês começa em 0 (janeiro = 0)
-	let year = parseInt(dateParts[2]);
+	let day = parseInt(dateParts[2]);
 
 	const date = new Date(year, mounth);
 	const installmentsValor = valor / installments;
@@ -18,7 +18,7 @@ const calcCount = (description, initialDate, valor, installments) => {
 		date.setMonth(date.getMonth() + 1); // Avança para o próximo mês
 	}
 
-	return {description, monthList, installmentsValor, installmentsList };
+	return {description, monthList, installmentsValor, installmentsList};
 };
 
 module.exports = {

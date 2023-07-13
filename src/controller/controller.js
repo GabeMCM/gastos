@@ -7,6 +7,7 @@ const init = async (req, res) => {
 	//função para renderizar o index
 	try {
 		const dataComplet = await dataService.getAllData();
+		dataService.showData();
 		res.render("index", { dataComplet });
 		//res.redirect("/");
 	} catch (err) {
@@ -24,30 +25,28 @@ const saveData = async (req, res) => {
 
 	try {
 		if (choice == "fixedAccount") {
-
 			await dataService.sendData(f_Account);
-
 		} else if (choice == "termAccount") {
+			const termObject = calcService.calcCount(
+				form.descricao,
+				form.vencimento,
+				form.valor,
+				form.quantParcelas
+			);
 
-			const {descricao, vencimento, valor, quantParcelas} = req.body;
-			const termObject = calcService.calcCount(descricao, vencimento, valor, quantParcelas);
-
-			for (let i = 0; i < termObject.monthList; i++) {
-				const form = {
+			for (let i = 0; i < termObject.monthList.length; i++) {
+				const formObject = {
 					descricao: termObject.description,
 					vencimento: termObject.monthList[i],
 					valor: termObject.installmentsValor,
 					quantParcelas: termObject.installmentsList[i],
-				}
+				};
 
-				const t_Account = new user.termAccounts(form);
+				const t_Account = new user.termAccounts(formObject);
 				await dataService.sendData(t_Account);
 			}
-			
 		} else if (choice == "dailyAccount") {
-
 			await dataService.sendData(d_Account);
-
 		}
 		res.redirect("/");
 	} catch (err) {
