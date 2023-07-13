@@ -1,81 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style/table.css">
-  <title>Document</title>
+  <title>Gastos</title>
 </head>
+
 <body>
-  <section class="preencher" id="despesas" name="despesas">
-
-    <form action="/save/fixedAccount" method="post">
-      <div class="Resp">
-        <input name="responsavel" type="text" placeholder="Resp">
-      </div>
-      <div class="dataDM">
-        <input name="vencimento" type="date" placeholder="dataDM">
-      </div>
-      <div class="desc">
-        <input name="descricao" type="text" placeholder="desc">
-      </div>
-      <div class="valor">
-        <input name="valor" type="number" step="0.01" placeholder="valor1">
-      </div>
-      <button id="add-data1" type="submit">Adicionar</button>
-    </form>
-
-  </section>  
-
-  <section class="preencher" id="teste" name="despesas">
-
-    <form action="/save/termAccount" method="post">
-      <div class="Resp">
-        <input name="responsavel" type="text" placeholder="Resp">
-      </div>
-      <div class="dataDM">
-        <input name="mesInicial" type="date" placeholder="dataDM">
-      </div>
-      <div class="desc">
-        <input name="descricao" type="text" placeholder="desc">
-      </div>
-      <div class="valor">
-        <input name="valor" type="number" step="0.01" placeholder="valor">
-      </div>
-      <div class="qtParcelas">
-        <input name="quantParcelas" type="number" placeholder="qtParcelas">
-      </div>
-      <button id="add-data2" type="submit">Adicionar</button>
-    </form>
-
-  </section>  
-
-  <section class="preencher" id="teste" name="despesas">
-
-    <form action="/save/dailyAccount" method="post">
-      <div class="desc">
-        <input name="descricao" type="text" placeholder="desc">
-      </div>
-      <div class="valor">
-        <input name="valor" type="number" step="0.01" placeholder="valor1">
-      </div>
-      <button id="add-data3" type="submit">Adicionar</button>
-    </form>
-
-  </section>   
-
-  <div class="AllTables"> <!-- {list: dataComplet, obj: collection} -->
+  <div class="AllTables">
+    <!-- {list: dataComplet, obj: collection} -->
     <% for (let collection in dataComplet) { %>
-      <% if (collection === "daily") {%>
-        <%- include("./modules/dailyTable", {list: dataComplet, obj: collection})%>
-      <% } else if (collection === "fixed") {%>
-        <%- include("./modules/fixedTable", {list: dataComplet, obj: collection})%>
-      <% } else if (collection === "term") {%>
-        <%- include("./modules/termTable", {list: dataComplet, obj: collection})%>
-      <% } %>
+    <% if (collection === "daily") {%>
+    <%- include("./modules/dailyTable", {list: dataComplet, obj: collection})%>
+    <% } else if (collection === "fixed") {%>
+    <%- include("./modules/fixedTable", {list: dataComplet, obj: collection})%>
+    <% } else if (collection === "term") {%>
+    <%- include("./modules/termTable", {list: dataComplet, obj: collection})%>
+    <% } %>
     <% } %>
   </div>
-
 </body>
+
 </html>
